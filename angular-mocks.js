@@ -72,8 +72,14 @@ angular.mock.$Browser = function() {
 
   self.defer = function(fn, delay) {
     delay = delay || 0;
-    self.deferredFns.push({time:(self.defer.now + delay), fn:fn, id: self.deferredNextId});
-    self.deferredFns.sort(function(a, b) { return a.time - b.time;});
+    if(delay == 0) {
+      fn();
+    } else {
+      self.deferredFns.push({time: (self.defer.now + delay), fn: fn, id: self.deferredNextId});
+      self.deferredFns.sort(function (a, b) {
+        return a.time - b.time;
+      });
+    }
     return self.deferredNextId++;
   };
 
